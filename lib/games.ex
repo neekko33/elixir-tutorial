@@ -1,17 +1,25 @@
 defmodule Games do
   def get do
-    %{name: "Diablo 4", in_stock: true, price: 100}
+    %{name: "Diablo 4", in_stock: true, price: 20}
   end
 
-  def validate_purchase(game) do
-    if(!game.in_stock) do
-      {:error, "Game not available for purchase"}
-    else
-      if game.price > 50 do
+  def purchase(game) do
+    case validate_purchase(game) do
+      {:error, reason} -> "Error: #{reason}"
+      {:ok, _} -> "Successful purchase!"
+    end
+  end
+
+  defp validate_purchase(game) do
+    cond do
+      !game.in_stock ->
+        {:error, "Game not available for purchase"}
+
+      game.price > 50 ->
         {:error, "Too expensive to buy"}
-      else
+
+      true ->
         {:ok, "Game purchased successfully"}
-      end
     end
   end
 end
