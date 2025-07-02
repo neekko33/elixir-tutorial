@@ -13,15 +13,18 @@ defmodule Games do
   end
 
   def filter_games(game_list) do
-    Enum.filter(game_list, fn game ->
-      game.in_stock and game.price <= 50
-    end)
+    Enum.filter(game_list, &filter_handler/1)
+  end
+
+  defp filter_handler(game) do
+    game.in_stock and game.price <= 50
   end
 
   def print_list(game_list) do
-    Enum.map(game_list, fn game ->
-      "#{game.name} is #{if game.in_stock, do: "In stock!", else: "Not available 😭"}, price: $#{game.price}"
-    end)
+    Enum.map(
+      game_list,
+      &"#{&1.name} is #{if &1.in_stock, do: "In stock!", else: "Not available 😭"}, price: $#{&1.price}"
+    )
   end
 
   def print(game) do
