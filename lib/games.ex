@@ -7,9 +7,25 @@ defmodule Games do
     [
       %{name: "Diablo 4", in_stock: true, price: 20},
       %{name: "Starfield", in_stock: false, price: 60},
-      %{name: "Cyberpunk 2077", in_stock: true, price: 30},
+      %{name: "Cyberpunk 2077", in_stock: false, price: 30},
       %{name: "Hogwarts Legacy", in_stock: true, price: 50}
     ]
+  end
+
+  def filter_games(game_list) do
+    Enum.filter(game_list, fn game ->
+      game.in_stock and game.price <= 50
+    end)
+  end
+
+  def print_list(game_list) do
+    Enum.map(game_list, fn game ->
+      "#{game.name} is #{if game.in_stock, do: "In stock!", else: "Not available 😭"}, price: $#{game.price}"
+    end)
+  end
+
+  def print(game) do
+    Enum.each(game, fn {key, value} -> IO.puts("#{key}: #{value}") end)
   end
 
   def count([]), do: 0
